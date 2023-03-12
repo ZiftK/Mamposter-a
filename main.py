@@ -5,6 +5,8 @@ import richTables as rt
 from obj_viv import Planta, Muro, Losa
 console = Console()
 
+from msg import Flag
+
 if True:#*Enlistado de variables
 
     ##RH Cantidad de acero longitudinal y refuerzo transversal
@@ -27,7 +29,7 @@ if True:#*Enlistado de variables
 
 if __name__ == "__main__":
 
-    file = pd.read_csv("MAMPOSTERIA\\ExcelTables\\tabladeentrada2.csv")
+    file = pd.read_csv("ExcelTables\\tabladeentrada2.csv")
 
     frame = pd.DataFrame(file)
 
@@ -65,29 +67,12 @@ if __name__ == "__main__":
 
     rt.printTabla1(planta)
 
-
-
-
-
-    for index in range(frame.shape[0]):
-
-
     
-
-        id = frame.loc[index,"ID muro"]
-        longitud = frame.loc[index,"longitud"]
-        atributaria = frame.loc[index,"Area Tributaria"]
-        fe = frame.loc[index,"FE"]
-        peso_mc_material = frame.loc[index,"peso pieza"]
-        altura_libre = frame.loc[index,"altura libre"]
-        pesos_add = frame.loc[index,"peso add"]
-        fm = frame.loc[index,"fm"]
-        muro = Muro(id,longitud,fe,peso_mc_material,altura_libre,fm,castillo,atributaria,cm_muro=1.3,cv_muro=1.5,)
-
-        muros.append(muro)
     
     losa_entrepiso = Losa(80,240,peso_add_m2 = 38+5+40+50) #Losa entrepiso
     planta_alta = Planta(muros,losa_entrepiso,190,100) #planta baja
+
+    
 
     
     rt.printTabla2(planta,planta)

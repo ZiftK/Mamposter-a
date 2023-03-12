@@ -84,7 +84,7 @@ class Muro:
         '''
         
 
-        def __init__(self,  fy : float, fyh: float, bc : float, hc : float, fc : float) -> None:
+        def __init__(self,  fy : float, fyc: float, bc : float, hc : float, fc : float) -> None:
             '''
                 Parámetros
                 ---------
@@ -97,14 +97,14 @@ class Muro:
             
             #*_____________ Digitables _____________
 
-            self.fy : float = fy*10000
-            self.fyc : float = fyh*10000
+            self.fy : float = fy
+            self.fyc : float = fyc
             self.bc : float = bc
             self.hc : float = hc
-            self.fc : float = fc*10000
+            self.fc : float = fc
 
             #TODO: Este valor puede modificarse de constante a calculable, se deberá hacer en futuras versiones
-            self.varilla : float = 5.68*10000
+            self.varilla : float = 5.68 #centimetros
 
             #* _____________ Calculables _____________
 
@@ -169,7 +169,7 @@ class Muro:
         self.fe : float = fe
         self.peso_mc_material : float = peso_mc_material
         self.altura_libre : float = altura_libre
-        self.fm : float = fm*10000
+        self.fm : float = fm
         self.castillo : Muro.Castillo = castillo
         self.at_muros: float = at_muros
         #* _____________ Constantes _____________
@@ -215,7 +215,7 @@ class Muro:
         self.__pu : float = 0
         self.__pr : float = 0
         self.__comparacion : str = ""
-        self.__area_transversal: float = round(self.longitud*self.__espesor,3)
+        self.__area_transversal: float = round(((self.longitud*self.__espesor)*100),3)
 
         #* _____________ Cálculos de castillo _____________
         castillo.calcSep(self.__espesor)
@@ -229,10 +229,12 @@ class Muro:
         self.__pu += otherInstance.__pu
         self.__pr += otherInstance.__pr
 
+        return self
+
     
     def calcPU(self):
 
-        self.__pu = self.cm_muro*self.__peso_cm + self.cv_muro*self.__peso_cv
+        self.__pu = (self.cm_muro*self.__peso_cm) + (self.cv_muro*self.__peso_cv)
         
     def calcPesoCM(self,losa_peso):
 
@@ -253,7 +255,7 @@ class Muro:
         '''
             Se calculará la carga que resisten los muros
         '''
-        self.__pr = self.fr*self.fe*((self.fm*self.__area_transversal)+self.castillo.varilla*self.castillo.fy)
+        self.__pr = self.fr*self.fe*((self.fm*self.__area_transversal)+(self.castillo.varilla*self.castillo.fy))
 
     def calcF(self):
         '''
@@ -349,6 +351,8 @@ class Planta:
         self.calcPv()
         self.calcPh()
 
+
+        #Calculamos los datos de los muros
         self.calcMurosData()
 
         pass

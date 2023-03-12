@@ -2,6 +2,8 @@ from rich.table import Table as tb
 from rich.console import Console as cr
 from obj_viv import Planta, Muro
 
+from msg import Flag
+
 
 def printTabla1(planta : Planta):
 
@@ -40,16 +42,15 @@ def printTabla2(planta_baja : Planta, planta_alta : Planta):
     # Crear una tabla con las columnas
     table = tb(show_header=True, header_style="bold magenta",*column_names)
 
-    planta_baja += planta_alta
-
+    
+    
     
     for muro in planta_baja.muros:
 
-        muro.calcPU()
-        muro.calcPR()
-        muro.CompPRPU()
-        pu=muro.getPu
-        table.add_row(f"{pu}",f"{muro.getPr()}",f"{muro.CompPRPU()}")
+        
+
+        
+        table.add_row(f"{muro.getPu()}",f"{muro.getPr()}",f"{muro.getCompPrPu()}")
 
     #Imprimir la tabla
     console = cr()
