@@ -104,7 +104,13 @@ if __name__ == "__main__":
     planta_baja = Planta(muros2,losa_entrepiso,190,100) #planta baja
     
     rt.printTabla_planta_alta_comp(planta_alta)
-    
+    rt.printTabla_planta_baja_comp(planta_baja,planta_alta)
+    rt.printTabla_planta_alta_pu(planta_alta)
+    rt.printTabla_planta_baja_pu(planta_baja,planta_alta)
+    rt.printTabla_planta_alta_cvcm(planta_alta)
+    rt.printTabla_planta_bajacvcm(planta_baja,planta_alta)
+    rt.printTabla_planta_alta_pesomuro(planta_alta)
+    rt.printTabla_planta_baja_pesomuro(planta_baja,planta_alta)
 
         
     

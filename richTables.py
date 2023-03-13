@@ -90,6 +90,9 @@ def printTabla_planta_alta_pu(planta_alta : Planta):
 
         
         table.add_row(f"{muro.id}",f"{muro.getPu()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 
 def printTabla_planta_baja_pu(planta_baja : Planta, planta_alta : Planta):
@@ -104,10 +107,13 @@ def printTabla_planta_baja_pu(planta_baja : Planta, planta_alta : Planta):
 
         
         table.add_row(f"{muro.id}",f"{muro.getPu()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 
 #____________________CARGA VIVA, CARGA MUERTA___________________________________________________
-def printTabla_planta_alta_cvcm(planta_baja : Planta, planta_alta: Planta):
+def printTabla_planta_alta_cvcm(planta_alta: Planta):
     muro : Muro 
     #Lista de nombres de columnas
     column_names= ["ID Muro","Carga Muerta","Carga Viva"]
@@ -116,7 +122,10 @@ def printTabla_planta_alta_cvcm(planta_baja : Planta, planta_alta: Planta):
     for muro in planta_alta.muros:
 
         
-        table.add_row(f"{muro.id}",f"{muro.getPesoCm()}",f"{muro.getPesoCv}")
+        table.add_row(f"{muro.id}",f"{muro.getPesoCm()}",f"{muro.getPesoCv()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 def printTabla_planta_bajacvcm(planta_baja : Planta, planta_alta: Planta):
     planta_baja+planta_alta
@@ -128,7 +137,10 @@ def printTabla_planta_bajacvcm(planta_baja : Planta, planta_alta: Planta):
     for muro in planta_baja.muros:
 
         
-        table.add_row(f"{muro.id}",f"{muro.getPesoCm()}",f"{muro.getPesoCv}")
+        table.add_row(f"{muro.id}",f"{muro.getPesoCm()}",f"{muro.getPesoCv()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 
 
@@ -143,7 +155,9 @@ def printTabla_planta_alta_pesomuro(planta_alta: Planta):
 
         
         table.add_row(f"{muro.id}",f"{muro.getPesoML()}")
-
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 def printTabla_planta_baja_pesomuro(planta_baja : Planta,planta_alta: Planta):
     planta_baja+= planta_alta
@@ -156,6 +170,9 @@ def printTabla_planta_baja_pesomuro(planta_baja : Planta,planta_alta: Planta):
 
         
         table.add_row(f"{muro.id}",f"{muro.getPesoML()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
 
 
 #_____________PV____________________________
@@ -165,8 +182,61 @@ def printTabla_planta_alta_pv(planta_alta: Planta):
     #Lista de nombres de columnas
     column_names= ["ID Muro","Pv"]
     #Crear Una Tabla Con Columnas
-    table = tb(show_header=True,header_style="bold magenta",*column_names)
+    table = tb(show_header=True,header_style="bold magenta",*column_names,title="PV")
     for muro in planta_alta.muros:
 
         
-        table.add_row(f"{muro.id}",f"{muro.getPesoML()}")
+        table.add_row(f"{muro.id}",f"{muro.getPv()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
+
+def printTabla_planta_baja_pv(planta_baja : Planta,planta_alta: Planta):
+    
+    planta_baja+= planta_alta
+    muro : Muro 
+    planta : Planta
+    
+    #Lista de nombres de columnas
+    column_names= ["ID Muro","Pv"]
+    #Crear Una Tabla Con Columnas
+    table = tb(show_header=True,header_style="bold magenta",*column_names,title="PV")
+    for muro in planta_alta.muros:
+
+        
+        table.add_row(f"{muro.id}",f"{planta.getPv()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
+
+#_______________PH____________________
+def printTabla_planta_alta_ph(planta_alta: Planta):
+    planta : Planta
+    muro : Muro 
+    #Lista de nombres de columnas
+    column_names= ["ID Muro","Ph"]
+    #Crear Una Tabla Con Columnas
+    table = tb(show_header=True,header_style="bold magenta",*column_names,title="PH")
+    for muro in planta_alta.muros:
+
+        
+        table.add_row(f"{muro.id}",f"{muro.getPesoPh()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)
+
+def printTabla_planta_baja_ph(planta_alta: Planta):
+    planta_baja+= planta_alta
+    planta : Planta
+    muro : Muro 
+    #Lista de nombres de columnas
+    column_names= ["ID Muro","Ph"]
+    #Crear Una Tabla Con Columnas
+    table = tb(show_header=True,header_style="bold magenta",*column_names,title="PH")
+    for muro in planta_alta.muros:
+
+        
+        table.add_row(f"{muro.id}",f"{planta.getPh()}")
+    #Imprimir la tabla
+    console = cr()
+    console.print(table)

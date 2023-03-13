@@ -233,8 +233,6 @@ class Muro:
     def __add__(self, otherInstance):
 
         self.__pu += otherInstance.__pu
-        self.__pr += otherInstance.__pr
-
         return self
 
     
@@ -478,4 +476,5 @@ class Planta:
         return self.__peso_cm
     def getPesoCV(self): #$ AÑADIDO
         return self.__peso_cv
+   
     

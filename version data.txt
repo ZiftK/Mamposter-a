@@ -1,0 +1,6 @@
+En este documento se describen los cambios de la versión.
+
+1.- Se ha agregado el método getter para el valor de pv de la planta
+2.- Se han agregado tablas de rich para la impresión de datos
+3.- Se ha modificado la ejecución del main para imprimir las tablas
+4.- Se modificó la sobrecarga del operador __add__ para los muros: ya no se sumán los valores de Pr
