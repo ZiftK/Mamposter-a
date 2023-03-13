@@ -20,7 +20,7 @@ class Losa:
         self.__losa_area: float = area_losa
         self.__losa_peso_m2: float = peso_losa_m2
         
-        #*______Digitables opcionales________________
+        #*________________ Digitables opcionales ________________
         self.__peso_add_m2: float = 0.0
         try:
             if isinstance(kargs["peso_add_m2"], list):
@@ -31,7 +31,11 @@ class Losa:
         except KeyError:
             pass
 
-        #*_________Calculable___________________
+        #*________________ Calculable ___________________
+        self.peso : float = 0
+
+
+        #* ________________ Cálculos ________________
         self.updatePeso()
 
         
@@ -46,7 +50,7 @@ class Losa:
         return self.__peso
 
     def getPesoM2(self):
-        return self.__losa_peso_m2 + self.__peso_add_m2
+        return self.__losa_peso_m2 
 
     def getPeso(self):
         return self.__peso
@@ -62,10 +66,12 @@ class Losa:
         Calcula el peso considerando la carga sísmica
         '''
         return (self.__losa_peso_m2 + self.__peso_add_m2 + cv_h) * self.__losa_area
+    
+    def getPesoAddM2(self):
+        return self.__peso_add_m2
 
     def updatePeso(self):
         self.__peso = (self.__losa_peso_m2 + self.__peso_add_m2) * self.__losa_area
-        return self.__peso
 
 
 class Muro:
@@ -215,7 +221,7 @@ class Muro:
         self.__pu : float = 0
         self.__pr : float = 0
         self.__comparacion : str = ""
-        self.__area_transversal: float = round(((self.longitud*self.__espesor)*100),3)
+        self.__area_transversal: float = round(((self.longitud*self.__espesor)*10000),3)
 
         #* _____________ Cálculos de castillo _____________
         castillo.calcSep(self.__espesor)
@@ -233,16 +239,36 @@ class Muro:
 
     
     def calcPU(self):
-
+        
+        
         self.__pu = (self.cm_muro*self.__peso_cm) + (self.cv_muro*self.__peso_cv)
         
-    def calcPesoCM(self,losa_peso):
+        
+        
+    def calcPesoCM(self, losa_peso_mc : float):
+        '''
+            Calcula el peso de la carga viva para el muro
 
-        self.__peso_cm = (losa_peso + self.__peso_ml)*self.at_muros 
+            Parametros
+            ----------
 
-    def calcPesoCV(self,losa_cv_v):
+            losa_peso_mc -> [kg/m2]
+        '''
 
-        self.__peso_cv = losa_cv_v*self.at_muros
+        
+
+        self.__peso_cm = losa_peso_mc*self.at_muros + ((self.__peso_ml*self.longitud)) #kg
+        
+    def calcPesoCV(self,losa_cv_v : float):
+        '''
+            Calcula el peso de carga viva del muro
+
+            parametros
+            ---------
+
+            losa_cv_v -> carga viva vertical de la losa [kg/m2]
+        '''
+        self.__peso_cv = losa_cv_v*self.at_muros #kg
 
     def CompPRPU (self):
 
@@ -278,7 +304,7 @@ class Muro:
             Calcula el peso por metro lineal
         '''
 
-        self.__peso_ml = (self.peso_mc_material + self.__peso_add_m2)*self.altura_libre
+        self.__peso_ml = ((self.peso_mc_material) + self.__peso_add_m2)*self.altura_libre #kg/m
 
 
 
@@ -417,8 +443,9 @@ class Planta:
         #recorremos la lista de muros
         for muro in self.muros:
 
-            muro.calcPesoCM(self.losa.getPeso())
-            muro.calcPesoCV(self.losa.getPesoCvv(self.cv_v))
+            
+            muro.calcPesoCM(self.losa.getPesoM2() + self.losa.getPesoAddM2())
+            muro.calcPesoCV(self.cv_v)
             muro.calcPR()
             muro.calcPU()
             muro.CompPRPU()
